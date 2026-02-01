@@ -1,7 +1,7 @@
 ---
 title: "Robustness"
 author: "I.Bartomeus"
-format: html
+format: pdf
 editor: visual
 editor_options: 
   chunk_output_type: console
@@ -14,6 +14,9 @@ Simple topological dynamics are unrealistic, but help us understand how topology
 ## Load data
 
 ```{r}
+#| echo: true
+#| output: false
+
 #install.packages("bipartite")
 library(bipartite)
 
@@ -40,28 +43,41 @@ It looks like Aigrettes has higher C, N and M, indicating higher robustness. Let
 
 ```{r}
 #select how we lose species for flores. 
-r1f <- second.extinct(web = olesen2002flores, method = "random") 
-r2f <- second.extinct(web = olesen2002flores, method = "abundance")
-r3f <- second.extinct(web = olesen2002flores, method = "degree")
+r1f <- second.extinct(web = olesen2002flores, 
+                      method = "random") #random
+r2f <- second.extinct(web = olesen2002flores, 
+                      method = "abundance") #less to more abundant
+r3f <- second.extinct(web = olesen2002flores,
+                      method = "degree") #more to less degree
 
 #Plot it (a bit convoluted, because we need the cumulative sum)
-plot(cumsum(r1f[,"ext.higher"]), cumsum(r1f[,"ext.lower"]), las = 1, t = "l", xlab = "Extinctions", ylab = "Secondary extinctions")
-lines(cumsum(r2f[,"ext.higher"]), cumsum(r2f[,"ext.lower"]), las = 1, t = "l", col = 2)
-lines(cumsum(r3f[,"ext.higher"]), cumsum(r3f[,"ext.lower"]), las = 1, t = "l", col = 3)
+plot(cumsum(r1f[,"ext.higher"]), cumsum(r1f[,"ext.lower"]), 
+     las = 1, t = "l", 
+     xlab = "Extinctions", ylab = "Secondary extinctions")
+lines(cumsum(r2f[,"ext.higher"]), cumsum(r2f[,"ext.lower"]), 
+      las = 1, t = "l", col = 2)
+lines(cumsum(r3f[,"ext.higher"]), cumsum(r3f[,"ext.lower"]), 
+      las = 1, t = "l", col = 3)
 
 robustness(r1f)
 robustness(r2f)
 robustness(r3f)
 
 #Same for Aigrettes 
-r1a <- second.extinct(web = olesen2002aigrettes, method = "random") #random
-r2a <- second.extinct(web = olesen2002aigrettes, method = "abundance") #less to more abundant
-r3a <- second.extinct(web = olesen2002aigrettes, method = "degree")
-#more to less connected
+r1a <- second.extinct(web = olesen2002aigrettes, 
+                      method = "random") #random
+r2a <- second.extinct(web = olesen2002aigrettes, 
+                      method = "abundance") #less to more abundant
+r3a <- second.extinct(web = olesen2002aigrettes, 
+                      method = "degree") #more to less connected
 
-plot(cumsum(r1a[,"ext.higher"]), cumsum(r1a[,"ext.lower"]), las = 1, t = "l", xlab = "Extinctions", ylab = "Secondary extinctions")
-lines(cumsum(r2a[,"ext.higher"]), cumsum(r2a[,"ext.lower"]), las = 1, t = "l", col = 2)
-lines(cumsum(r3a[,"ext.higher"]), cumsum(r3a[,"ext.lower"]), las = 1, t = "l", col = 3)
+plot(cumsum(r1a[,"ext.higher"]), cumsum(r1a[,"ext.lower"]), 
+     las = 1, t = "l", 
+     xlab = "Extinctions", ylab = "Secondary extinctions")
+lines(cumsum(r2a[,"ext.higher"]), cumsum(r2a[,"ext.lower"]), 
+      las = 1, t = "l", col = 2)
+lines(cumsum(r3a[,"ext.higher"]), cumsum(r3a[,"ext.lower"]), 
+      las = 1, t = "l", col = 3)
 
 robustness(r1a)
 robustness(r2a)
@@ -69,12 +85,18 @@ robustness(r3a)
 
 #comparamos both
 #random
-plot(cumsum(r1f[,"ext.higher"]), cumsum(r1f[,"ext.lower"]), las = 1, t = "l", xlab = "Extinctions", ylab = "Secondary extinctions")
-lines(cumsum(r1a[,"ext.higher"]), cumsum(r1a[,"ext.lower"]), las = 1, t = "l", col = 4)
+plot(cumsum(r1f[,"ext.higher"]), cumsum(r1f[,"ext.lower"]), 
+     las = 1, t = "l", 
+     xlab = "Extinctions", ylab = "Secondary extinctions")
+lines(cumsum(r1a[,"ext.higher"]), cumsum(r1a[,"ext.lower"]), 
+      las = 1, t = "l", col = 4)
 
 #abundance
-plot(cumsum(r2[,"ext.higher"]), cumsum(r2[,"ext.lower"]), las = 1, t = "l", xlab = "Extinctions", ylab = "Secondary extinctions")
-lines(cumsum(r2a[,"ext.higher"]), cumsum(r2a[,"ext.lower"]), las = 1, t = "l", col = 4)
+plot(cumsum(r2f[,"ext.higher"]), cumsum(r2f[,"ext.lower"]), 
+     las = 1, t = "l", 
+     xlab = "Extinctions", ylab = "Secondary extinctions")
+lines(cumsum(r2a[,"ext.higher"]), cumsum(r2a[,"ext.lower"]), 
+      las = 1, t = "l", col = 4)
 ```
 
 Yes, it looks like Aigrettes is more robust to species loss. But note this models are extremely simplified, and in nature species do not get extinct one by one, they can rewire their interactions and many more mecanisms operate at once (e.g. immigration).
